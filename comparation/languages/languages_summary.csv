@@ -1,0 +1,4 @@
+language,baseline_latency_ms,sparse_timedecay_latency_ms,dense_ram_mb,sparse_ram_mb,ghost_removal_time
+Python (Pure),17.26,13.72,0.99,0.14,0.8s
+C++ (g++ -O3),0.0320,0.1430,0.99,0.13,0.8s
+Rust (Release),0.1550,0.2130,0.99,0.13,0.8s

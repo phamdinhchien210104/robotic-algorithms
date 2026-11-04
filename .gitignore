@@ -1,0 +1,34 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+*.log
+
+# C++ builds
+*.exe
+*.o
+*.obj
+*.dll
+*.so
+*.dylib
+cpp/benchmark_cpp.exe
+
+# Rust builds
+rust/target/
+*.pdb
+
+# IDE / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Giữ lại các file csv dữ liệu thực nghiệm trong comparation và lidar01.csv
+!comparation/**/*.csv
+!Mapping/**/*.csv
+
+# Coding Agents
+.agents/
+AGENTS.md

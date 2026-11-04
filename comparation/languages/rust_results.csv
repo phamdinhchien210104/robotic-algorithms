@@ -1,0 +1,4 @@
+metric,rust_baseline,rust_sparse_timedecay
+ghost_removal_time,Chua triet tieu (inf),0.8s
+ram_mb,0.9918,0.1259
+latency_ms,0.1238,0.1859

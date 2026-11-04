@@ -1,0 +1,4 @@
+metric,cpp_baseline,cpp_sparse_timedecay
+ghost_removal_time,Chua triet tieu (inf),0.8s
+ram_mb,0.991821,0.125885
+latency_ms,0.035375,0.154994

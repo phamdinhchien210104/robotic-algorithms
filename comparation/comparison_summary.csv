@@ -1,0 +1,4 @@
+metric,baseline,time_decay_sparse,evaporation_sparse,target_spec,evaluation
+Ghost Removal Time,Chua triet tieu (inf),0.8s (8 frames),0.9s (9 frames),<= 1.5s,DAT YEU CAU (Xoa triet de)
+RAM Consumption (Long Corridor),0.99 MB (Dense),0.14 MB (Sparse),0.26 MB (Sparse),Giam >= 40%,DAT YEU CAU (Giam > 90%)
+Avg Latency (100% Python),17.26 ms,13.72 ms,15.50 ms,<= 50ms,TOI UU GIAI THUAT (Nhanh gap ~1.3x)
