@@ -29,24 +29,31 @@ Dự án này giải quyết triệt để 3 nút thắt trên bằng các mô h
 
 ## 2. Các Cải tiến Toán học & Giải thuật
 
-```
-                             [ PIPELINE BẢN ĐỒ CẢI TIẾN ]
-                                          │
-            ┌─────────────────────────────┴─────────────────────────────┐
-            ▼                                                           ▼
-【 CẢI TIẾN 1: Time-decay Log-Odds 】                     【 CẢI TIẾN 2: Moving Window & Evaporation 】
-  L_t(m) = L_{t-1}(m) · e^(−λΔt) + ΔL(m|z_t)                P_t(m) = max(P_prior, P_{t-1}(m) − αΔt)
-  Phân rã xác suất mượt mà theo hàm mũ                      Khấu trừ tuyến tính kết hợp sliding window W frames
-            │                                                           │
-            └─────────────────────────────┬─────────────────────────────┘
-                                          ▼
-                      【 CẤU TRÚC CHUNK SPARSE GRID 】
-                       Chia không gian thành khối 16x16 ô
-                       Tự động giải phóng RAM khi ô về 0 (Tiết kiệm >85% RAM)
-                                          │
-                                          ▼
-                      【 TRÍCH XUẤT TRƯỜNG KHOẢNG CÁCH ESDF 】
-                       Cung cấp cự ly an toàn & vector gradient đẩy mượt mà
+```mermaid
+flowchart TD
+    subgraph Core ["PIPELINE BẢN ĐỒ CẢI TIẾN"]
+        direction TB
+        Input["Dữ liệu cảm biến LiDAR 2D<br/>(Range, Azimuth)"] --> Decision
+        
+        Decision{"Lựa chọn cơ chế Lọc động"}
+        
+        Decision -->|Phương pháp 1| M1["<b>CẢI TIẾN 1: Time-decay Log-Odds</b><br/>L_t(m) = L_{t-1}(m) · e^(−λΔt) + ΔL<br/><i>(Phân rã xác suất mượt mà theo hàm mũ)</i>"]
+        Decision -->|Phương pháp 2| M2["<b>CẢI TIẾN 2: Moving Window & Evaporation</b><br/>P_t(m) = max(P_prior, P_{t-1}(m) − αΔt)<br/><i>(Khấu trừ tuyến tính & cửa sổ trượt W frames)</i>"]
+        
+        M1 --> Sparse["<b>CẤU TRÚC CHUNK SPARSE GRID</b><br/>• Chia không gian thành khối 16x16 ô<br/>• Tự động giải phóng RAM khi ô về 0 (Tiết kiệm >85% RAM)"]
+        M2 --> Sparse
+        
+        Sparse --> ESDF["<b>TRÍCH XUẤT TRƯỜNG KHOẢNG CÁCH ESDF</b><br/>Cung cấp cự ly an toàn & vector gradient đẩy mượt mà"]
+        
+        ESDF --> Output["<b>Đầu ra phục vụ Điều khiển & Tránh va chạm</b><br/>(DWA, MPC, Trajectory Optimization)"]
+    end
+
+    style Core fill:#f8fafc,stroke:#334155,stroke-width:1.5px
+    style M1 fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
+    style M2 fill:#ecfdf5,stroke:#10b981,stroke-width:2px
+    style Sparse fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style ESDF fill:#fdf2f8,stroke:#ec4899,stroke-width:2px
+    style Output fill:#f5f3ff,stroke:#8b5cf6,stroke-width:2px
 ```
 
 ### 2.1. Cải tiến 1: Time-decay Log-Odds (Suy giảm theo hàm mũ)
